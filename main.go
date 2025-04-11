@@ -1,15 +1,16 @@
 package main
 
 import (
-	
 	"net/http"
 
+	"example.com/rest-api/db"
 	"example.com/rest-api/models"
 	"github.com/gin-gonic/gin"
 )
 
 
 func main() {
+	db.InitDB()
 	server := gin.Default()
 
 	server.GET("/events", getEvents ) //* get,post,put,delete,patch
@@ -40,6 +41,9 @@ func createEvent(c *gin.Context){
 
 	event.ID = 1 
 	event.UserID = 1
+
+	event.Save()
+
 	c.JSON(http.StatusCreated,gin.H{"message": "Event created successfully", "event": event})
 
 
